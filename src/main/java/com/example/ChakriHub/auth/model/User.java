@@ -1,5 +1,6 @@
 package com.example.ChakriHub.auth.model;
 
+import com.example.ChakriHub.entity.candidate.Candidate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -55,5 +56,8 @@ public class User {
     )
 
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @OneToOne(mappedBy = "user")
+    private Candidate candidate;
 
 }
