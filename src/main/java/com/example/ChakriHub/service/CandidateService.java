@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CandidateService {
 
-    public Candidate getCandidate(Long id);
+    public CandidateResponseDto getCandidate(Long id);
     public List<CandidateResponseDto> getAllCandidates();
     public void addCandidate(CandidateRequestDto candidateRequestDto);
     public void updateCandidate(CandidateRequestDto candidateRequestDto,Long id);

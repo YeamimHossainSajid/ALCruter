@@ -1,38 +1,105 @@
 package com.example.ChakriHub.service.impl;
 
 import com.example.ChakriHub.entity.candidate.Candidate;
+import com.example.ChakriHub.entity.recruter.Recruter;
 import com.example.ChakriHub.payload.request.CandidateRequestDto;
 import com.example.ChakriHub.payload.response.CandidateResponseDto;
+import com.example.ChakriHub.payload.response.RecruterResponseDto;
+import com.example.ChakriHub.repository.CandidateRepository;
 import com.example.ChakriHub.service.CandidateService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CandidateServiceImpl implements CandidateService {
 
+    CandidateRepository candidateRepository;
+
+    public CandidateServiceImpl(CandidateRepository candidateRepository) {
+        this.candidateRepository = candidateRepository;
+    }
+
+    public Candidate convertToEntity(CandidateRequestDto candidateRequestDto,Candidate candidate) {
+
+        candidate.setCv(candidateRequestDto.getCv());
+        candidate.setCoverPic(candidateRequestDto.getCoverPic());
+        candidate.setLanguage(candidateRequestDto.getLanguage());
+        candidate.setCreatedDate(LocalDateTime.now());
+        candidate.setEducationalQualifications(candidateRequestDto.getEducationalQualifications());
+        candidate.setLocation( candidateRequestDto.getLocation());
+        candidate.setSkills(candidateRequestDto.getSkills());
+        candidate.setFullName(candidateRequestDto.getFullName());
+        candidate.setPhoneNumber(candidateRequestDto.getPhoneNumber());
+        candidate.setYearsOfExperience(candidateRequestDto.getYearsOfExperience());
+        candidate.setPreferedPossion(candidateRequestDto.getPreferedPossion());
+        candidate.setPortfolioLinks(candidateRequestDto.getPortfolioLinks());
+        candidate.setPastExperience(candidateRequestDto.getPastExperience());
+
+        return candidate;
+
+    }
+
+    public CandidateResponseDto convertToDto(Candidate candidateRequestDto) {
+
+        CandidateResponseDto candidate = new CandidateResponseDto();
+
+        candidate.setCv(candidateRequestDto.getCv());
+        candidate.setCoverPic(candidateRequestDto.getCoverPic());
+        candidate.setLanguage(candidateRequestDto.getLanguage());
+        candidate.setCreatedDate(LocalDateTime.now());
+        candidate.setEducationalQualifications(candidateRequestDto.getEducationalQualifications());
+        candidate.setLocation( candidateRequestDto.getLocation());
+        candidate.setSkills(candidateRequestDto.getSkills());
+        candidate.setFullName(candidateRequestDto.getFullName());
+        candidate.setPhoneNumber(candidateRequestDto.getPhoneNumber());
+        candidate.setYearsOfExperience(candidateRequestDto.getYearsOfExperience());
+        candidate.setPreferedPossion(candidateRequestDto.getPreferedPossion());
+        candidate.setPortfolioLinks(candidateRequestDto.getPortfolioLinks());
+        candidate.setPastExperience(candidateRequestDto.getPastExperience());
+
+        return candidate;
+
+
+    }
+
+
+
     @Override
-    public Candidate getCandidate(Long id) {
-        return null;
+    public CandidateResponseDto getCandidate(Long id) {
+        Candidate candidate = candidateRepository.findById(id).orElse(null);
+        CandidateResponseDto candidateResponseDto = convertToDto(candidate);
+        return candidateResponseDto;
     }
 
     @Override
     public List<CandidateResponseDto> getAllCandidates() {
-        return List.of();
+        List<Candidate> candidate = candidateRepository.findAll();
+        List<CandidateResponseDto> candidateResponseDtos =
+                candidate.stream()
+                        .map(this::convertToDto)
+                        .collect(Collectors.toList());
+        return candidateResponseDtos;
+
     }
 
     @Override
     public void addCandidate(CandidateRequestDto candidateRequestDto) {
-
+        Candidate candidate=convertToEntity(candidateRequestDto,new Candidate());
+        candidateRepository.save(candidate);
     }
 
     @Override
     public void updateCandidate(CandidateRequestDto candidateRequestDto, Long id) {
-
+   Candidate candidate=candidateRepository.findById(id).orElse(null);
+     Candidate updatedCandidate=convertToEntity(candidateRequestDto,candidate);
+     candidateRepository.save(updatedCandidate);
     }
 
     @Override
     public void deleteCandidate(Long id) {
-
+   candidateRepository.deleteById(id);
     }
 }
