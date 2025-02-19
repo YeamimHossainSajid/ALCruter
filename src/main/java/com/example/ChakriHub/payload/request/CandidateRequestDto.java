@@ -1,5 +1,6 @@
 package com.example.ChakriHub.payload.request;
 
+import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +36,5 @@ public class CandidateRequestDto {
 
     String cv;
 
-    Long userId;
+    CustomUserResponseDTO user;
 }
