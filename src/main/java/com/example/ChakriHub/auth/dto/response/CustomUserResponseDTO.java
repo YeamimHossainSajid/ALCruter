@@ -12,20 +12,6 @@ public interface CustomUserResponseDTO {
 
     String getProfilpic();
 
-    String getAddress();
-
-    String getPhone();
-
-    String getBio();
-
-    Long getSold();
-
-    Long getPropertyAdded();
-
-    String getProfession();
-
-    String getFullname();
-
     Set< RoleInfo > getRoles();
 
     interface RoleInfo {
