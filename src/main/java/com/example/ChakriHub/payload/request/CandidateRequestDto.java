@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,13 +29,12 @@ public class CandidateRequestDto {
 
     String yearsOfExperience;
 
-    String coverPic;
+    MultipartFile coverPic;
 
     String educationalQualifications;
 
     String pastExperience;
 
-    String cv;
+    MultipartFile cv;
 
-    CustomUserResponseDTO user;
 }

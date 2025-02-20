@@ -2,6 +2,7 @@ package com.example.ChakriHub.controller;
 
 import com.example.ChakriHub.payload.request.RecruterRequestDto;
 import com.example.ChakriHub.payload.response.RecruterResponseDto;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.ChakriHub.service.RecruterService;
@@ -35,8 +36,8 @@ public class RecruterController {
     }
 
     // Create recruiter
-    @PostMapping
-    public ResponseEntity<String> createRecruter(@RequestBody RecruterRequestDto recruterRequestDto) {
+    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> createRecruter(@ModelAttribute RecruterRequestDto recruterRequestDto) {
         recruterService.createRecruter(recruterRequestDto);
         return ResponseEntity.ok("Recruiter created successfully");
     }

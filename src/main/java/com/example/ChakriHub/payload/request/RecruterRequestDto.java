@@ -19,5 +19,4 @@ public class RecruterRequestDto {
 
     private String industryType;
 
-    CustomUserResponseDTO user;
 }

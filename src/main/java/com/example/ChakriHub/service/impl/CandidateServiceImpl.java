@@ -7,25 +7,37 @@ import com.example.ChakriHub.payload.response.CandidateResponseDto;
 import com.example.ChakriHub.payload.response.RecruterResponseDto;
 import com.example.ChakriHub.repository.CandidateRepository;
 import com.example.ChakriHub.service.CandidateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class CandidateServiceImpl implements CandidateService {
 
     CandidateRepository candidateRepository;
+    @Autowired
+    CloudneryImageServiceImpl cloudneryImageService;
 
     public CandidateServiceImpl(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
     }
 
-    public Candidate convertToEntity(CandidateRequestDto candidateRequestDto,Candidate candidate) {
+    public Candidate convertToEntity(CandidateRequestDto candidateRequestDto, Candidate candidate, MultipartFile coverImage,MultipartFile cv) throws IOException {
 
-        candidate.setCv(candidateRequestDto.getCv());
-        candidate.setCoverPic(candidateRequestDto.getCoverPic());
+        Map<String, Object> heroUploadResult = cloudneryImageService.upload(coverImage);
+        String coverImageUrl = (String) heroUploadResult.get("secure_url");
+
+        Map<String, Object> heroUploadResult1 = cloudneryImageService.upload(coverImage);
+        String cv1 = (String) heroUploadResult1.get("secure_url");
+
+        candidate.setCv(cv1);
+        candidate.setCoverPic(coverImageUrl);
         candidate.setLanguage(candidateRequestDto.getLanguage());
         candidate.setCreatedDate(LocalDateTime.now());
         candidate.setEducationalQualifications(candidateRequestDto.getEducationalQualifications());
@@ -86,15 +98,15 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void addCandidate(CandidateRequestDto candidateRequestDto) {
-        Candidate candidate=convertToEntity(candidateRequestDto,new Candidate());
+    public void addCandidate(CandidateRequestDto candidateRequestDto) throws IOException {
+        Candidate candidate=convertToEntity(candidateRequestDto,new Candidate(),candidateRequestDto.getCoverPic(),candidateRequestDto.getCv());
         candidateRepository.save(candidate);
     }
 
     @Override
-    public void updateCandidate(CandidateRequestDto candidateRequestDto, Long id) {
+    public void updateCandidate(CandidateRequestDto candidateRequestDto, Long id) throws IOException {
    Candidate candidate=candidateRepository.findById(id).orElse(null);
-     Candidate updatedCandidate=convertToEntity(candidateRequestDto,candidate);
+     Candidate updatedCandidate=convertToEntity(candidateRequestDto,candidate,candidateRequestDto.getCoverPic(),candidateRequestDto.getCv());
      candidateRepository.save(updatedCandidate);
     }
 
