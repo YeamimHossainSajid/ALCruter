@@ -62,10 +62,11 @@ public class UserController {
         return ResponseEntity.ok("Successfully updated user");
     }
 //
-//    @GetMapping("search/{username}")
-//    public ResponseEntity<CustomUserResponseDTO> searchByUserName(@PathVariable("username") String username) {
-//        return ResponseEntity.ok(userService.searchByUsername(username));
-//    }
+    @GetMapping("search/{username}")
+    public ResponseEntity<CustomUserResponseDTO> searchByUserName(@PathVariable("username") String username) {
+        return ResponseEntity.ok(userService.searchByUsername(username));
+    }
+
 //    @MessageMapping("/user.addUser")
 //    @SendTo("/user/public")
 //    public User addUser(
