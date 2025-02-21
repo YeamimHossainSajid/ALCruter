@@ -2,6 +2,8 @@ package com.example.ChakriHub.entity.candidate;
 
 import com.example.ChakriHub.auth.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -44,6 +46,9 @@ public class Candidate {
     String pastExperience;
 
     String cv;
+
+    @Size(max = 2000000, message = "CV in text must be up to 20,000 characters")
+    String cvInText;
 
     private LocalDateTime createdDate;
 

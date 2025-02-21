@@ -1,12 +1,16 @@
 package com.example.ChakriHub.controller;
 
+import com.example.ChakriHub.config.cvparsing.PdfService;
 import com.example.ChakriHub.payload.request.CandidateRequestDto;
 import com.example.ChakriHub.payload.response.CandidateResponseDto;
 import com.example.ChakriHub.service.CandidateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,6 +20,9 @@ import java.util.List;
 public class CandidateController {
 
     private final CandidateService candidateService;
+
+    @Autowired
+    private PdfService pdfService;
 
     public CandidateController(CandidateService candidateService) {
         this.candidateService = candidateService;
@@ -57,5 +64,31 @@ public class CandidateController {
         candidateService.deleteCandidate(id);
         return ResponseEntity.ok("Candidate deleted successfully");
     }
+
+    @PostMapping(value = "/extract", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String extractPdfText(@RequestParam("file") MultipartFile file) {
+        try {
+            // Check if the file is a PDF
+            if (!file.getContentType().equals("application/pdf")) {
+                return "Please upload a valid PDF file.";
+            }
+
+            // Save the uploaded file temporarily
+            File tempFile = File.createTempFile("uploaded-", ".pdf");
+            file.transferTo(tempFile);
+
+            // Extract text from PDF
+            String extractedText = pdfService.extractTextFromPdf(tempFile.getAbsolutePath());
+
+            // Clean up the temporary file
+            tempFile.delete();
+
+            return extractedText;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error extracting text from PDF: " + e.getMessage();
+        }
+    }
+
 }
 
