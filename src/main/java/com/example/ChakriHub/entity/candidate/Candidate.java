@@ -19,6 +19,8 @@ public class Candidate {
 
     String fullName;
 
+    String bio;
+
     String phoneNumber;
 
     String location;
@@ -26,6 +28,8 @@ public class Candidate {
     String skills;
 
     String language;
+
+    String about;
 
     String portfolioLinks;
 
@@ -46,6 +50,23 @@ public class Candidate {
     private LocalDateTime updatedDate;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     private User user;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = LocalDateTime.now();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        if (user != null && user.getCandidate() != this) {
+            user.setCandidate(this);
+        }
+    }
 }

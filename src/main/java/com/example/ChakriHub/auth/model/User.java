@@ -57,7 +57,30 @@ public class User {
 
     private Set<Role> roles = new LinkedHashSet<>();
 
-    @OneToOne(mappedBy = "user")
+
+    @OneToOne
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id", unique = true)
     private Candidate candidate;
+
+//    public void setCandidate(Candidate candidate) {
+//        this.candidate = candidate;
+//        if (candidate != null ) {
+//            candidate.setUser(this);
+//        }
+//    }
+    @Column()
+    private Long candiId;
+
+    // Getter and setter for candidateId
+    public Long getCandidateId() {
+        return candiId;
+    }
+
+    public void setCandidateId(Long candidateId) {
+        this.candiId = candidateId;
+    }
+
+   private String choose=null;
+
 
 }

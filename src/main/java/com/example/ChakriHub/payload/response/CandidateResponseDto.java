@@ -1,5 +1,6 @@
 package com.example.ChakriHub.payload.response;
 
+import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,11 @@ public class CandidateResponseDto {
 
     String cv;
 
-    private LocalDateTime createdDate;
+    CustomUserResponseDTO customUserResponseDTO;
 
-    private LocalDateTime updatedDate;
+    String about;
+
+    String bio;
+
+    LocalDateTime createdDate;
 }

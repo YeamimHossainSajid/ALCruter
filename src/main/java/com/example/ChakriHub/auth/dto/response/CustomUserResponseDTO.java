@@ -12,11 +12,26 @@ public interface CustomUserResponseDTO {
 
     String getProfilpic();
 
-    Set< RoleInfo > getRoles();
+    String getChoose();
 
-    interface RoleInfo {
+    CandidateInfo getCandidate();
+
+    interface CandidateInfo {
         Long getId();
-
-        String getRoleType();
+        String getFullName();
+        String getBio();
+        String getPhoneNumber();
+        String getLocation();
+        String getSkills();
+        String getLanguage();
+        String getAbout();
+        String getPortfolioLinks();
+        String getPreferedPossion();
+        String getYearsOfExperience();
+        String getCoverPic();
+        String getEducationalQualifications();
+        String getPastExperience();
+        String getCv();
     }
 }
+

@@ -19,6 +19,10 @@ public class CandidateRequestDto {
 
     String location;
 
+    String bio;
+
+    String about;
+
     String skills;
 
     String language;
@@ -36,5 +40,7 @@ public class CandidateRequestDto {
     String pastExperience;
 
     MultipartFile cv;
+
+    Long userId;
 
 }
