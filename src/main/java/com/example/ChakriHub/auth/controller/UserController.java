@@ -36,7 +36,6 @@ public class UserController {
     }
 
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping( "{id}" )
     public ResponseEntity<CustomUserResponseDTO> readOne(@PathVariable( "id" ) Long id ) {
         return ResponseEntity
@@ -44,7 +43,6 @@ public class UserController {
                 .body( userService.readOne( id ) );
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping( "change-roles" )
     public ResponseEntity<String> setUserRoles(@RequestBody UserRoleRequestDTO requestDTO ) {
         userService.setUserRoles( requestDTO ) ;
@@ -61,7 +59,7 @@ public class UserController {
         userService.updateUser(id,requestDTO, requestDTO.profilpic());
         return ResponseEntity.ok("Successfully updated user");
     }
-//
+
     @GetMapping("search/{username}")
     public ResponseEntity<CustomUserResponseDTO> searchByUserName(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.searchByUsername(username));

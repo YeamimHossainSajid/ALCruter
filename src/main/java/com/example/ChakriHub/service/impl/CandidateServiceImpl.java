@@ -39,7 +39,7 @@ public class CandidateServiceImpl implements CandidateService {
         Map<String, Object> heroUploadResult = cloudneryImageService.upload(coverImage);
         String coverImageUrl = (String) heroUploadResult.get("secure_url");
 
-        Map<String, Object> heroUploadResult1 = cloudneryImageService.upload(coverImage);
+        Map<String, Object> heroUploadResult1 = cloudneryImageService.upload(cv);
         String cv1 = (String) heroUploadResult1.get("secure_url");
 
         candidate.setCv(cv1);

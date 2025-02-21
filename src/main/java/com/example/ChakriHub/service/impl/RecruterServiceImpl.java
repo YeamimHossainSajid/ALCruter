@@ -32,7 +32,8 @@ public class RecruterServiceImpl implements RecruterService {
     }
 
 
-    public Recruter ConvartToRecruter(RecruterRequestDto recruterRequestDto, Recruter recruter, MultipartFile coverImage) throws IOException {
+    public Recruter ConvartToRecruter
+            (RecruterRequestDto recruterRequestDto, Recruter recruter, MultipartFile coverImage) throws IOException {
 
         Map<String, Object> heroUploadResult = cloudneryImageService.upload(coverImage);
         String coverImageUrl = (String) heroUploadResult.get("secure_url");
@@ -84,7 +85,8 @@ public class RecruterServiceImpl implements RecruterService {
 
     @Override
     public void createRecruter(RecruterRequestDto recruterRequestDto) throws IOException {
-        Recruter recruter = ConvartToRecruter(recruterRequestDto,new Recruter(),recruterRequestDto.getCoverPhoto());
+        Recruter recruter = ConvartToRecruter
+                (recruterRequestDto,new Recruter(),recruterRequestDto.getCoverPhoto());
         recruterRepository.save(recruter);
         User user=userRepo.findById(recruterRequestDto.getUserId()).orElse(null);
         user.setChoose("recruter");
@@ -94,7 +96,8 @@ public class RecruterServiceImpl implements RecruterService {
     @Override
     public void updateRecruter(RecruterRequestDto recruterRequestDto, Long id) throws IOException {
         Recruter recruter = recruterRepository.findById(id).orElse(null);
-        Recruter updatedRecruter = ConvartToRecruter(recruterRequestDto,recruter,recruterRequestDto.getCoverPhoto());
+        Recruter updatedRecruter = ConvartToRecruter
+                (recruterRequestDto,recruter,recruterRequestDto.getCoverPhoto());
          recruterRepository.save(updatedRecruter);
 
     }

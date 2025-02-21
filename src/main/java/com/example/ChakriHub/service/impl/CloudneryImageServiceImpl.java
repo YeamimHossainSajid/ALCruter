@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -16,8 +17,16 @@ public class CloudneryImageServiceImpl implements CloudneryImageService {
     public Cloudinary cloudinary;
 
     @Override
-    public Map upload(MultipartFile file) throws IOException {
-      Map data=  this.cloudinary.uploader().upload(file.getBytes(),Map.of());
+    public Map<String, Object> upload(MultipartFile file) throws IOException {
+        Map<String, Object> options = new HashMap<>();
+
+        // Specify the resource type
+        if (file.getContentType() != null && file.getContentType().contains("pdf")) {
+            options.put("resource_type", "raw"); // Specify resource type for PDF
+        }
+
+        // Upload the file
+        Map<String, Object> data = this.cloudinary.uploader().upload(file.getBytes(), options);
         return data;
     }
 }
