@@ -116,4 +116,3 @@ public class GlobalWebSecurityConfig {
             request.setAttribute("javax.servlet.error.status_code", HttpServletResponse.SC_FORBIDDEN);
         }
     }
-}
