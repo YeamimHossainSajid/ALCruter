@@ -68,7 +68,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostResponseDto> getAllPosts() {
-        return postRepository.findAllPosts();
+        List<Post> post = postRepository.findAll();
+        List<PostResponseDto> postDtos = post.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+        return postDtos;
     }
 
     @Override
