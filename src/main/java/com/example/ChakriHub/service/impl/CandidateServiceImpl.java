@@ -137,7 +137,6 @@ public class CandidateServiceImpl implements CandidateService {
       Candidate candidate1=  candidateRepository.save(candidate);
         User user =userRepo.findById(candidateRequestDto.getUserId()).get();
         user.setChoose("candidate");
-        user.setCandidateId(candidate1.getId());
         userRepo.save(user);
     }
 

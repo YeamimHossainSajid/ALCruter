@@ -33,5 +33,18 @@ public interface CustomUserResponseDTO {
         String getPastExperience();
         String getCv();
     }
+
+    RecruterInfo getRecruter();
+
+    public interface RecruterInfo {
+        Long getId();
+        String getName();
+        String getCoverPhoto();
+        String getCompanyName();
+        String getOfficeLocation();
+        String getCompanyDiscription();
+        String getIndustryType();
+    }
+
 }
 

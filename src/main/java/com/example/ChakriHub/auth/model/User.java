@@ -1,6 +1,7 @@
 package com.example.ChakriHub.auth.model;
 
 import com.example.ChakriHub.entity.candidate.Candidate;
+import com.example.ChakriHub.entity.recruter.Recruter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -62,23 +63,18 @@ public class User {
     @JoinColumn(name = "candidate_id", referencedColumnName = "id", unique = true)
     private Candidate candidate;
 
-//    public void setCandidate(Candidate candidate) {
+
+    @OneToOne
+    @JoinColumn(name = "recruter_id", referencedColumnName = "id", unique = true)
+    private Recruter recruter;
+
+
+    //    public void setCandidate(Candidate candidate) {
 //        this.candidate = candidate;
 //        if (candidate != null ) {
 //            candidate.setUser(this);
 //        }
 //    }
-    @Column()
-    private Long candiId;
-
-    // Getter and setter for candidateId
-    public Long getCandidateId() {
-        return candiId;
-    }
-
-    public void setCandidateId(Long candidateId) {
-        this.candiId = candidateId;
-    }
 
    private String choose=null;
 
