@@ -1,6 +1,7 @@
 package com.example.ChakriHub.auth.model;
 
 import com.example.ChakriHub.entity.candidate.Candidate;
+import com.example.ChakriHub.entity.post.Post;
 import com.example.ChakriHub.entity.recruter.Recruter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -76,6 +78,9 @@ public class User {
 //        }
 //    }
 
+
+    @OneToMany(mappedBy = "user", cascade = {}, orphanRemoval = true)
+    private List<Post> posts;
    private String choose=null;
 
 
