@@ -45,7 +45,7 @@ public class GlobalWebSecurityConfig {
                 .cors(cors -> cors.configurationSource(new CustomCORSConfig()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(
-                        SessionCreationPolicy.ALWAYS
+                        SessionCreationPolicy.STATELESS
                 ))
                 .authorizeHttpRequests((httpRequests) -> {
                     httpRequests
