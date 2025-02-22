@@ -62,12 +62,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostResponseDto> getAllPosts() {
-        List<Post> post = postRepository.findAll();
-        List<PostResponseDto> postDtos = post.stream()
+        List<Post> posts = postRepository.findAll();
+
+
+        posts.sort((p1, p2) -> Long.compare(p2.getId(), p1.getId()));
+
+        return posts.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
-        return postDtos;
     }
+
 
     @Override
     public void addPost(PostRequestDto postRequestDto) throws IOException {

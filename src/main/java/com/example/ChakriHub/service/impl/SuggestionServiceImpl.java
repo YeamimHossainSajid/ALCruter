@@ -13,10 +13,8 @@ import com.example.ChakriHub.repository.RecruterRepository;
 import com.example.ChakriHub.service.SuggestionService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SuggestionServiceImpl implements SuggestionService {
@@ -52,22 +50,25 @@ public class SuggestionServiceImpl implements SuggestionService {
         Map<Long, List<String>> candidateSkillsMap = new HashMap<>();
         Map<Long, Double> matchPercentageMap = new HashMap<>();
 
-
         for (Candidate candidate : candidates) {
             List<String> extractedSkills = skillMatcherService.extractSkills(candidate.getCvInText());
             candidateSkillsMap.put(candidate.getId(), extractedSkills);
         }
-
-
-        List<String> postSkills = skillMatcherService.extractSkills(targetPost.getBody());
 
         for (Candidate candidate : candidates) {
             double matchPercentage = skillMatcherService.calculateMatchPercentage(candidate.getCvInText(), targetPost.getBody());
             matchPercentageMap.put(candidate.getId(), matchPercentage);
         }
 
+        List<Candidate> sortedCandidates = candidates.stream()
+                .map(candidate -> new AbstractMap.SimpleEntry<>(candidate,
+                        skillMatcherService.calculateMatchPercentage(candidate.getCvInText(), targetPost.getBody())))
+                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
         List<MatchedCandidateResponseDto> candidateResponses = new ArrayList<>();
-        for (Candidate candidate : candidates) {
+        for (Candidate candidate : sortedCandidates) {
             MatchedCandidateResponseDto responseDto = new MatchedCandidateResponseDto();
             responseDto.setCandidateId(candidate.getId());
             responseDto.setCandidateName(candidate.getFullName());
@@ -77,10 +78,8 @@ public class SuggestionServiceImpl implements SuggestionService {
             candidateResponses.add(responseDto);
         }
 
-
         return candidateResponses;
     }
-
 
 
     @Override
@@ -91,17 +90,12 @@ public class SuggestionServiceImpl implements SuggestionService {
             return new ArrayList<>();
         }
 
-        List<String> candidateSkills = skillMatcherService.extractSkills(candidate.getCvInText());
-
-        List<Post> allPosts = postRepository.findAll();
         List<MatchedPostResponseDto> matchedPosts = new ArrayList<>();
 
-        for (Post post : allPosts) {
+        for (Post post : postRepository.findAll()) {
             List<String> postSkills = skillMatcherService.extractSkills(post.getBody());
 
-
             double matchPercentage = skillMatcherService.calculateMatchPercentage(candidate.getCvInText(), post.getBody());
-
 
             if (matchPercentage > 0) {
                 MatchedPostResponseDto responseDto = new MatchedPostResponseDto();
@@ -113,8 +107,7 @@ public class SuggestionServiceImpl implements SuggestionService {
                 matchedPosts.add(responseDto);
             }
         }
-
-
+        matchedPosts.sort((p1, p2) -> Double.compare(p2.getMatchPercentage(), p1.getMatchPercentage()));
 
         return matchedPosts;
     }
