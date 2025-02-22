@@ -3,6 +3,7 @@ package com.example.ChakriHub.service.impl;
 import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
 import com.example.ChakriHub.auth.model.User;
 import com.example.ChakriHub.auth.repository.UserRepo;
+import com.example.ChakriHub.config.cvparsing.PdfService;
 import com.example.ChakriHub.entity.candidate.Candidate;
 import com.example.ChakriHub.entity.recruter.Recruter;
 import com.example.ChakriHub.payload.request.CandidateRequestDto;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,10 +30,12 @@ public class CandidateServiceImpl implements CandidateService {
     UserRepo userRepo;
     @Autowired
     CloudneryImageServiceImpl cloudneryImageService;
+    PdfService pdfService;
 
-    public CandidateServiceImpl(CandidateRepository candidateRepository, UserRepo userRepo) {
+    public CandidateServiceImpl(CandidateRepository candidateRepository, UserRepo userRepo,PdfService pdfService) {
         this.candidateRepository = candidateRepository;
         this.userRepo = userRepo;
+        this.pdfService = pdfService;
     }
 
     public Candidate convertToEntity(CandidateRequestDto candidateRequestDto, Candidate candidate, MultipartFile coverImage,MultipartFile cv) throws IOException {
@@ -58,6 +62,20 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setBio(candidateRequestDto.getBio());
         candidate.setAbout(candidateRequestDto.getAbout());
         candidate.setUser(userRepo.findById(candidateRequestDto.getUserId()).get());
+
+        try {
+            if (!cv.getContentType().equals("application/pdf")) {
+                throw new RuntimeException("Please upload a valid PDF file.");
+            }
+            File tempFile = File.createTempFile("uploaded-", ".pdf");
+            cv.transferTo(tempFile);
+            String extractedText = pdfService.extractTextFromPdf(tempFile.getAbsolutePath());
+            tempFile.delete();
+            candidate.setCvInText(extractedText);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error extracting text from PDF: " + e.getMessage());
+        }
 
         return candidate;
 
@@ -86,7 +104,7 @@ public class CandidateServiceImpl implements CandidateService {
 //        candidate.setCustomUserResponseDTO(new CustomUserResponseDTO() {
 //            @Override
 //            public Long getId() {
-//                return candidateRequestDto.getUser().getId();  // Getting from candidateRequestDto
+//                return candidateRequestDto.getUser().getId();
 //            }
 //
 //            @Override

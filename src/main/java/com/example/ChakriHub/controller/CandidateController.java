@@ -68,19 +68,19 @@ public class CandidateController {
     @PostMapping(value = "/extract", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String extractPdfText(@RequestParam("file") MultipartFile file) {
         try {
-            // Check if the file is a PDF
+
             if (!file.getContentType().equals("application/pdf")) {
                 return "Please upload a valid PDF file.";
             }
 
-            // Save the uploaded file temporarily
+
             File tempFile = File.createTempFile("uploaded-", ".pdf");
             file.transferTo(tempFile);
 
-            // Extract text from PDF
+
             String extractedText = pdfService.extractTextFromPdf(tempFile.getAbsolutePath());
 
-            // Clean up the temporary file
+
             tempFile.delete();
 
             return extractedText;

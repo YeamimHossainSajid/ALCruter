@@ -20,12 +20,11 @@ public class CloudneryImageServiceImpl implements CloudneryImageService {
     public Map<String, Object> upload(MultipartFile file) throws IOException {
         Map<String, Object> options = new HashMap<>();
 
-        // Specify the resource type
+
         if (file.getContentType() != null && file.getContentType().contains("pdf")) {
-            options.put("resource_type", "raw"); // Specify resource type for PDF
+            options.put("resource_type", "raw");
         }
 
-        // Upload the file
         Map<String, Object> data = this.cloudinary.uploader().upload(file.getBytes(), options);
         return data;
     }

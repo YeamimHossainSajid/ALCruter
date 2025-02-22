@@ -31,9 +31,6 @@ public class PostServiceImpl implements PostService {
     public Post convertToEntity(PostRequestDto postRequestDto,Post post) {
 
         post.setBody(postRequestDto.getBody());
-        post.setTitle(postRequestDto.getTitle());
-        post.setSkills(postRequestDto.getSkills());
-        post.setMail(postRequestDto.getMail());
         post.setUser(userRepo.findById(postRequestDto.getUserId()).get());
 
         return post;
@@ -44,9 +41,6 @@ public class PostServiceImpl implements PostService {
      PostResponseDto postResponseDto = new PostResponseDto();
 
      postResponseDto.setBody(post.getBody());
-     postResponseDto.setTitle(post.getTitle());
-     postResponseDto.setSkills(post.getSkills());
-     postResponseDto.setMail(post.getMail());
      postResponseDto.setId(post.getId());
      postResponseDto.setUser(mapUserToDto(post.getUser()));
 

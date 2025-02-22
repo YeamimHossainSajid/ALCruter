@@ -1,7 +1,5 @@
 package com.example.ChakriHub.payload.request;
 
-
-import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 

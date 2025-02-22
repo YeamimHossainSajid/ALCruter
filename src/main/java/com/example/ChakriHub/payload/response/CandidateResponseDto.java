@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class CandidateResponseDto {
+
     private Long id;
+
     String fullName;
 
     String phoneNumber;
