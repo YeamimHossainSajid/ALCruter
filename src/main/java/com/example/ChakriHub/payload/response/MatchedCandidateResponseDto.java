@@ -1,12 +1,16 @@
 package com.example.ChakriHub.payload.response;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class MatchedCandidateResponseDto {
     private Long candidateId;
     private String candidateName;
     private List<String> matchedSkills;
     private double matchPercentage;
+    private String userName;
 
 
     public Long getCandidateId() {
