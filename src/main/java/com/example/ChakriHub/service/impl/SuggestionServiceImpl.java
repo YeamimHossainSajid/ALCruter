@@ -62,7 +62,6 @@ public class SuggestionServiceImpl implements SuggestionService {
         List<String> postSkills = skillMatcherService.extractSkills(targetPost.getBody());
 
         for (Candidate candidate : candidates) {
-            // Calculate match percentage
             double matchPercentage = skillMatcherService.calculateMatchPercentage(candidate.getCvInText(), targetPost.getBody());
             matchPercentageMap.put(candidate.getId(), matchPercentage);
         }
@@ -78,9 +77,6 @@ public class SuggestionServiceImpl implements SuggestionService {
             candidateResponses.add(responseDto);
         }
 
-        matchPercentageMap.forEach((candidateId, percentage) ->
-                System.out.println("Candidate ID: " + candidateId + " -> Match Percentage: " + percentage + "%")
-        );
 
         return candidateResponses;
     }
@@ -118,9 +114,7 @@ public class SuggestionServiceImpl implements SuggestionService {
             }
         }
 
-        matchedPosts.forEach(post ->
-                System.out.println("Matched Post ID: " + post.getId()  + ", Match Percentage: " + post.getMatchPercentage() + "%")
-        );
+
 
         return matchedPosts;
     }

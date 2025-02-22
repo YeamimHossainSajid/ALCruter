@@ -87,7 +87,7 @@ public class SkillMatcherService {
 
         for (String skill : SKILLS) {
             for (String token : tokens) {
-                if (token.equals(skill.toLowerCase()) || levenshteinDistance.apply(token, skill.toLowerCase()) <= 2) {
+                if (token != null && skill != null && token.toLowerCase().equals(skill.toLowerCase()))  {
                     foundSkills.add(skill);
                     break;
                 }
@@ -110,13 +110,15 @@ public class SkillMatcherService {
     }
 
     public double calculateMatchPercentage(String cvText, String jobDescription) {
+        if (cvText == null || jobDescription == null) {
+            return 0.0;
+        }
         List<String> cvSkills = extractSkills(cvText);
         List<String> jobSkills = extractSkills(jobDescription);
 
         if (jobSkills.isEmpty()) {
             return 0.0;
         }
-
         long matchedCount = cvSkills.stream().filter(jobSkills::contains).count();
         return (matchedCount / (double) jobSkills.size()) * 100;
     }
