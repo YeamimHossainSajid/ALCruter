@@ -73,6 +73,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
+
     @Override
     public void addPost(PostRequestDto postRequestDto) throws IOException {
         Post post = convertToEntity(postRequestDto,new Post());

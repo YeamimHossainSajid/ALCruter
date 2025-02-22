@@ -2,6 +2,7 @@ package com.example.ChakriHub.entity.recruter;
 
 import com.example.ChakriHub.auth.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,9 @@ public class Recruter {
 
     private String officeLocation;
 
+
+    @Size(max = 2000000, message = "body must be up to 2,000,000 characters")
+    @Column(length = 2000000)
     private String companyDiscription;
 
     private String industryType;
