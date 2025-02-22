@@ -10,7 +10,7 @@ public class MatchedCandidateResponseDto {
     private String candidateName;
     private List<String> matchedSkills;
     private double matchPercentage;
-    private String userName;
+    private String username;
 
 
     public Long getCandidateId() {

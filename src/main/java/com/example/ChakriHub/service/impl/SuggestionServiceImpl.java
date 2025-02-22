@@ -74,7 +74,7 @@ public class SuggestionServiceImpl implements SuggestionService {
             responseDto.setCandidateName(candidate.getFullName());
             responseDto.setMatchedSkills(candidateSkillsMap.get(candidate.getId()));
             responseDto.setMatchPercentage(matchPercentageMap.get(candidate.getId()));
-            responseDto.setUserName(candidate.getUser().getUsername());
+            responseDto.setUsername(candidate.getUser().getUsername());
 
             candidateResponses.add(responseDto);
         }
