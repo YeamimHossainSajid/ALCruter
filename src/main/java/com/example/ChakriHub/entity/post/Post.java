@@ -18,7 +18,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Size(max = 2000000, message = "Full name must be up to 2,000,000 characters")
+    @Size(max = 2000000, message = "body must be up to 2,000,000 characters")
     String body;
 
 
