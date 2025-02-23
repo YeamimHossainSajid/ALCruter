@@ -6,19 +6,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
-public record UserRequestDTO(
+import org.springframework.web.multipart.MultipartFile;
 
-        @NotEmpty(message = "Username can't be null or empty.")
-        String username,
+public class UserRequestDTO {
+        private String username;
+        private String email;
+        private String password;
+        private MultipartFile profilpic; // Include MultipartFile
 
-        @NotEmpty(message = "Email address can't be null or empty.")
-        @Email(message = "Enter a valid email address.")
-        String email,
+        // Getters and Setters
+        public String getUsername() { return username; }
+        public void setUsername(String username) { this.username = username; }
 
-        @NotEmpty(message = "Password can't be null or empty.")
-        String password,
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
 
-        MultipartFile profilpic
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
 
-) implements Serializable {
+        public MultipartFile getProfilpic() { return profilpic; }
+        public void setProfilpic(MultipartFile profilpic) { this.profilpic = profilpic; }
 }

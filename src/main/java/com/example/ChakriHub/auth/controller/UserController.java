@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,10 +31,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity< String > create(@ModelAttribute UserRequestDTO requestDto) throws IOException {
-        userService.create(requestDto,requestDto.profilpic());
+    public ResponseEntity<String> create(@ModelAttribute UserRequestDTO requestDto) throws IOException {
+        MultipartFile profilpic = requestDto.getProfilpic();
+        userService.create(requestDto, profilpic);
         return ResponseEntity.ok("Successfully created user");
     }
+
 
 
     @GetMapping( "{id}" )

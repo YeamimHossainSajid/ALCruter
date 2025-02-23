@@ -43,11 +43,17 @@ public class UserServiceIMPL implements UserService {
 
 
    public User ConvertToEntity(User user, UserRequestDTO userRequestDTO, MultipartFile profilepic) throws IOException {
-       Map<String, Object> heroUploadResult = cloudneryImageService.upload(profilepic);
-       String profileImageUrl = (String) heroUploadResult.get("secure_url");
-       user.setUsername( userRequestDTO.username() );
-       user.setEmail( userRequestDTO.email() );
-       user.setPassword( passwordEncoder.encode(userRequestDTO.password() ));
+       String   profileImageUrl = "https://res.cloudinary.com/dxmwiwy6g/image/upload/v1740298839/jhp0yhawmfwffy195dn8.jpg";
+
+       if (profilepic != null) {
+           Map<String, Object> heroUploadResult = cloudneryImageService.upload(profilepic);
+           profileImageUrl = (String) heroUploadResult.get("secure_url");
+       }
+
+
+       user.setUsername( userRequestDTO.getUsername() );
+       user.setEmail( userRequestDTO.getEmail() );
+       user.setPassword( passwordEncoder.encode(userRequestDTO.getPassword() ));
        user.setProfilpic(profileImageUrl);
 
        return user;
@@ -57,7 +63,7 @@ public class UserServiceIMPL implements UserService {
 
 
     public void create(UserRequestDTO requestDto, MultipartFile heroImageFile) throws IOException {
-       User user1=userRepository.findByUsername(requestDto.username());
+       User user1=userRepository.findByUsername(requestDto.getUsername());
        if(user1!=null){
            throw new RuntimeException("User already exists");
        }
