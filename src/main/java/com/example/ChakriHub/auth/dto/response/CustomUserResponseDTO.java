@@ -45,6 +45,8 @@ public interface CustomUserResponseDTO {
         String getOfficeLocation();
         String getCompanyDiscription();
         String getIndustryType();
+        String getPhoneNumber();
+        String getBio();
     }
 
 }

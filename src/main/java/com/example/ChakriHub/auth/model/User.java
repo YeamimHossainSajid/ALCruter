@@ -81,7 +81,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {}, orphanRemoval = true)
     private List<Post> posts;
-   private String choose=null;
+    private String choose=null;
 
 
 }

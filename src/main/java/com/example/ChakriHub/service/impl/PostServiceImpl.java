@@ -10,9 +10,11 @@ import com.example.ChakriHub.repository.PostRepository;
 import com.example.ChakriHub.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,15 +25,27 @@ public class PostServiceImpl implements PostService {
     @Autowired
     UserRepo userRepo;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    CloudneryImageServiceImpl cloudneryImageService;
+
+    public PostServiceImpl(PostRepository postRepository, CloudneryImageServiceImpl cloudneryImageService) {
+        this.cloudneryImageService=cloudneryImageService;
         this.postRepository = postRepository;
     }
 
 
-    public Post convertToEntity(PostRequestDto postRequestDto,Post post) {
+    public Post convertToEntity(PostRequestDto postRequestDto, Post post, MultipartFile image) throws IOException {
+
+        if (image != null && !image.isEmpty()) {
+            Map<String, Object> heroUploadResult = cloudneryImageService.upload(image);
+            String coverImageUrl = (String) heroUploadResult.get("secure_url");
+            post.setPicture(coverImageUrl);
+        } else {
+            post.setPicture(null);
+        }
 
         post.setBody(postRequestDto.getBody());
         post.setUser(userRepo.findById(postRequestDto.getUserId()).get());
+
 
         return post;
     }
@@ -41,6 +55,7 @@ public class PostServiceImpl implements PostService {
      PostResponseDto postResponseDto = new PostResponseDto();
 
      postResponseDto.setBody(post.getBody());
+     postResponseDto.setPhoto(post.getPicture());
      postResponseDto.setId(post.getId());
      postResponseDto.setUser(mapUserToDto(post.getUser()));
 
@@ -75,8 +90,8 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public void addPost(PostRequestDto postRequestDto) throws IOException {
-        Post post = convertToEntity(postRequestDto,new Post());
+    public void addPost(PostRequestDto postRequestDto,MultipartFile pic) throws IOException {
+        Post post = convertToEntity(postRequestDto,new Post(),pic);
         postRepository.save(post);
     }
 
@@ -247,6 +262,17 @@ public class PostServiceImpl implements PostService {
                     public String getIndustryType() {
                         return user.getRecruter().getIndustryType();
                     }
+
+                    @Override
+                    public String getPhoneNumber() {
+                        return  user.getRecruter().getPhoneNumber();
+                    }
+
+                    @Override
+                    public String getBio() {
+                        return user.getRecruter().getBio();
+                    }
+
                 };
             }
         };

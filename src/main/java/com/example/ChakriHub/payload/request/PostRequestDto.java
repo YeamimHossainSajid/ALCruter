@@ -1,12 +1,15 @@
 package com.example.ChakriHub.payload.request;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class PostRequestDto {
 
-    String body;
+    private String body;
 
-    Long userId;
+    private MultipartFile coverPhoto;
+
+    private Long userId;
 
 }

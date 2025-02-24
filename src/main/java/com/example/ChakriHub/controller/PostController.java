@@ -3,8 +3,10 @@ package com.example.ChakriHub.controller;
 import com.example.ChakriHub.payload.request.PostRequestDto;
 import com.example.ChakriHub.payload.response.PostResponseDto;
 import com.example.ChakriHub.service.PostService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,10 +30,11 @@ public class PostController {
         return ResponseEntity.ok(postService.getAllPosts());
     }
 
-    @PostMapping
-    public ResponseEntity<String> addPost(@RequestBody PostRequestDto postRequestDto) {
+    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> addPost(@ModelAttribute PostRequestDto postRequestDto) {
         try {
-            postService.addPost(postRequestDto);
+            MultipartFile pic=postRequestDto.getCoverPhoto();
+            postService.addPost(postRequestDto,pic);
             return ResponseEntity.ok("Post added successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error adding post: " + e.getMessage());

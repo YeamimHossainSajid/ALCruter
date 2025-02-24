@@ -46,16 +46,16 @@ public interface UserResponseDto {
         String getOfficeLocation();
         String getCompanyDiscription();
         String getIndustryType();
+        String getPhoneNumber();
+        String getBio();
     }
 
     List<PostResponseDto> getPosts(); // Assuming each user can have multiple posts
 
     interface PostResponseDto {
         Long getId();
-        String getTitle();
         String getBody();
-        String getSkills();
-        String getMail();
+        String getPicture();
     }
 
 }
