@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,8 +44,10 @@ public class PostServiceImpl implements PostService {
             post.setPicture(null);
         }
 
+        post.setCreatedDate(LocalDateTime.now());
         post.setBody(postRequestDto.getBody());
         post.setUser(userRepo.findById(postRequestDto.getUserId()).get());
+
 
 
         return post;
@@ -57,6 +60,7 @@ public class PostServiceImpl implements PostService {
      postResponseDto.setBody(post.getBody());
      postResponseDto.setPhoto(post.getPicture());
      postResponseDto.setId(post.getId());
+     postResponseDto.setCreatedDate(post.getCreatedDate());
      postResponseDto.setUser(mapUserToDto(post.getUser()));
 
      return postResponseDto;

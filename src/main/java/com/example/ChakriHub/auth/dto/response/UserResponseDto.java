@@ -1,6 +1,9 @@
 package com.example.ChakriHub.auth.dto.response;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +59,12 @@ public interface UserResponseDto {
         Long getId();
         String getBody();
         String getPicture();
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a", timezone = "Asia/Dhaka")
+        LocalDateTime getCreatedDate();
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a", timezone = "Asia/Dhaka")
+        LocalDateTime getUpdatedDate();
+
     }
 
 }

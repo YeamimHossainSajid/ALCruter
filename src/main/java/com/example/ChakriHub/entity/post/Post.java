@@ -3,10 +3,12 @@ package com.example.ChakriHub.entity.post;
 
 import com.example.ChakriHub.auth.model.User;
 import com.example.ChakriHub.entity.candidate.Candidate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +27,13 @@ public class Post {
 
 
     private String picture;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a,timezone = \"Asia/Dhaka")
+    private LocalDateTime createdDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a,timezone = \"Asia/Dhaka")
+    private LocalDateTime updatedDate;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
