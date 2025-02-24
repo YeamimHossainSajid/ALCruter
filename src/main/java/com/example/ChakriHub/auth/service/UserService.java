@@ -4,6 +4,7 @@ import com.example.ChakriHub.auth.dto.request.UserRequestDTO;
 import com.example.ChakriHub.auth.dto.request.UserRoleRequestDTO;
 import com.example.ChakriHub.auth.dto.request.UserUpdateRequestDto;
 import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
+import com.example.ChakriHub.auth.dto.response.UserResponseDto;
 import com.example.ChakriHub.auth.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,6 @@ public interface UserService {
     public CustomUserResponseDTO readOne(Long id );
     public User setUserRoles(UserRoleRequestDTO requestDTO );
     public void updateUser(Long id, UserUpdateRequestDto userRequestDTO, MultipartFile file) throws IOException;
-    public CustomUserResponseDTO searchByUsername(String username);
+    public UserResponseDto searchByUsername(String username);
 
 }

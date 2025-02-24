@@ -24,6 +24,8 @@ public class Post {
     String body;
 
 
+    private String picture;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

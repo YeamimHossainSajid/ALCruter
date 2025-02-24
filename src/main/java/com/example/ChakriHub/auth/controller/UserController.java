@@ -4,6 +4,7 @@ import com.example.ChakriHub.auth.dto.request.UserRequestDTO;
 import com.example.ChakriHub.auth.dto.request.UserRoleRequestDTO;
 import com.example.ChakriHub.auth.dto.request.UserUpdateRequestDto;
 import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
+import com.example.ChakriHub.auth.dto.response.UserResponseDto;
 import com.example.ChakriHub.auth.model.User;
 import com.example.ChakriHub.auth.repository.UserRepo;
 import com.example.ChakriHub.auth.service.UserServiceIMPL;
@@ -64,7 +65,7 @@ public class UserController {
     }
 
     @GetMapping("search/{username}")
-    public ResponseEntity<CustomUserResponseDTO> searchByUserName(@PathVariable("username") String username) {
+    public ResponseEntity<UserResponseDto> searchByUserName(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.searchByUsername(username));
     }
 

@@ -1,5 +1,6 @@
 package com.example.ChakriHub.auth.dto.response;
 
+import java.util.List;
 import java.util.Set;
 
 public interface CustomUserResponseDTO {

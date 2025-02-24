@@ -1,6 +1,7 @@
 package com.example.ChakriHub.auth.repository;
 
 import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
+import com.example.ChakriHub.auth.dto.response.UserResponseDto;
 import com.example.ChakriHub.auth.model.Status;
 import com.example.ChakriHub.auth.model.User;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -16,15 +17,17 @@ public interface UserRepo extends JpaRepository<User, Long > {
 
     List<User> findAllByStatus(Status status);
 
+    @EntityGraph(attributePaths = "posts")
     User findByUsername(String username);
 
     @EntityGraph( attributePaths = { "roles" } )
     User findByUsernameOrEmail(String username, String email );
 
+    @EntityGraph(attributePaths = "posts")
     @Query("""
             SELECT u FROM User u where u.username=:username
             """)
-    CustomUserResponseDTO searchByUsername(String username );
+    UserResponseDto searchByUsername(String username );
 
     boolean existsByEmail( String email );
 

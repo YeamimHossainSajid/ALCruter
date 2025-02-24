@@ -18,4 +18,8 @@ public class RecruterResponseDto {
     private String companyDiscription;
 
     private String industryType;
+
+    private String bio;
+
+    private String phoneNumber;
 }

@@ -46,6 +46,9 @@ public class RecruterServiceImpl implements RecruterService {
         recruter.setIndustryType(recruterRequestDto.getIndustryType());
         recruter.setOfficeLocation(recruterRequestDto.getOfficeLocation());
         recruter.setUsers(userRepo.findById(recruterRequestDto.getUserId()).orElse(null));
+        recruter.setBio(recruterRequestDto.getBio());
+        recruter.setPhoneNumber(recruterRequestDto.getPhoneNumber());
+
 
         return recruter;
     }
@@ -61,6 +64,8 @@ public class RecruterServiceImpl implements RecruterService {
         recruterResponseDto.setCompanyName(recruter.getCompanyName());
         recruterResponseDto.setIndustryType(recruter.getIndustryType());
         recruterResponseDto.setOfficeLocation(recruter.getOfficeLocation());
+        recruterResponseDto.setBio(recruter.getBio());
+        recruterResponseDto.setPhoneNumber(recruter.getPhoneNumber());
 
         return recruterResponseDto;
     }

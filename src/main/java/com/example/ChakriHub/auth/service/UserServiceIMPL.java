@@ -4,6 +4,7 @@ import com.example.ChakriHub.auth.dto.request.UserRequestDTO;
 import com.example.ChakriHub.auth.dto.request.UserRoleRequestDTO;
 import com.example.ChakriHub.auth.dto.request.UserUpdateRequestDto;
 import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
+import com.example.ChakriHub.auth.dto.response.UserResponseDto;
 import com.example.ChakriHub.auth.model.Role;
 import com.example.ChakriHub.auth.model.Status;
 import com.example.ChakriHub.auth.model.User;
@@ -114,7 +115,7 @@ public class UserServiceIMPL implements UserService {
     }
 
     @Override
-    public CustomUserResponseDTO searchByUsername(String username) {
+    public UserResponseDto searchByUsername(String username) {
         return userRepository.searchByUsername( username );
     }
 

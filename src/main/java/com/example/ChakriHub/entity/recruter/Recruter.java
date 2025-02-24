@@ -28,6 +28,11 @@ public class Recruter {
 
     private String officeLocation;
 
+    @Size(max = 2000, message = "body must be up to 2,000 characters")
+    @Column(length = 2000)
+    private String bio;
+
+    private String phoneNumber;
 
     @Size(max = 2000000, message = "body must be up to 2,000,000 characters")
     @Column(length = 2000000)

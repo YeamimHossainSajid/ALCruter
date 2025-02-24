@@ -18,6 +18,10 @@ public class RecruterRequestDto {
 
     private String industryType;
 
+    private String bio;
+
+    private String phoneNumber;
+
     private Long userId;
 
 }
