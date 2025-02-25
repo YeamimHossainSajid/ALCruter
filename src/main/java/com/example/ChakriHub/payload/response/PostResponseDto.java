@@ -15,11 +15,12 @@ public class PostResponseDto {
 
     String photo;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a,timezone = \"Asia/Dhaka")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a", timezone = "Asia/Dhaka")
     private LocalDateTime createdDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a,timezone = \"Asia/Dhaka")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d MMMM yyyy, h:mm a", timezone = "Asia/Dhaka")
     private LocalDateTime updatedDate;
+
 
     CustomUserResponseDTO user;
 }
