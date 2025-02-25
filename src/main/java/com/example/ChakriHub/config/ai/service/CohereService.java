@@ -2,6 +2,7 @@ package com.example.ChakriHub.config.ai.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +10,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
 @Service
 public class CohereService {
 
@@ -27,21 +31,21 @@ public class CohereService {
         String response = "I'm not sure how to answer that.";
 
         // List of creator-related questions
-//        String[] creatorKeywords = {
-//                "who is your creator",
-//                "who created you",
-//                "who are you made by",
-//                "who is the developer",
-//                "who is the owner"
-//        };
-//
-//        // Check if the question contains any of the creator-related keywords
-//        for (String keyword : creatorKeywords) {
-//            if (question.toLowerCase().contains(keyword)) {
-//                response = "I am developed by Yeamim Hossain Sajid and Md Sifat Bin Jibon.They both are currently Studying in United International University";
-//                break;
-//            }
-//        }
+        String[] creatorKeywords = {
+                "who is your creator",
+                "who created you",
+                "who are you made by",
+                "who is the developer",
+                "who is the owner"
+        };
+
+        // Check if the question contains any of the creator-related keywords
+        for (String keyword : creatorKeywords) {
+            if (question.toLowerCase().contains(keyword)) {
+                response = "I am developed by Yeamim Hossain Sajid and Md Sifat Bin Jibon. They both are currently studying at United International University.";
+                return response;
+            }
+        }
 
         // If no creator-related keyword is found, use the API to generate a response
         if (response.equals("I'm not sure how to answer that.")) {
@@ -51,14 +55,13 @@ public class CohereService {
                 headers.set("Authorization", "Bearer " + cohereApiKey);
                 headers.set("Content-Type", "application/json");
 
-                // Build the request body for the Cohere API
-                String requestBody = "{\n" +
-                        "  \"prompt\": \"" + question + "\",\n" +
-                        "  \"max_tokens\": 250,\n" +
-                        "  \"temperature\": 0.7\n" +
-                        "}";
+                // Build the request body using ObjectMapper
+                ObjectNode requestBody = objectMapper.createObjectNode();
+                requestBody.put("prompt", question);
+                requestBody.put("max_tokens", 250);
+                requestBody.put("temperature", 0.7);
 
-                HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+                HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
                 ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
                 // Check if we received a valid response from the API
@@ -84,5 +87,6 @@ public class CohereService {
 
         return response;
     }
+
 
 }

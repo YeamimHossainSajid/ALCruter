@@ -2,17 +2,16 @@ package com.example.ChakriHub.config.ai.service;
 
 import com.example.ChakriHub.auth.model.User;
 import com.example.ChakriHub.auth.repository.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AskCvService {
+    @Autowired
     UserRepo userRepo;
+    @Autowired
     CohereService cohereService;
 
-    public AskCvService(UserRepo userRepo, CohereService cohereService) {
-        this.userRepo = userRepo;
-        this.cohereService = cohereService;
-    }
 
     public String askCv(Long id,String question) {
         User user = userRepo.findById(id).get();

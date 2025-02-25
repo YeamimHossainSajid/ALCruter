@@ -11,8 +11,8 @@ public class AskCvController {
     public AskCvController(AskCvService askCvService) {
         this.askCvService = askCvService;
     }
-    @GetMapping("cv/question/{id}")
-    public ResponseEntity<String> askCv(@PathVariable Long id,@RequestBody String text) {
+    @GetMapping("cv/question/{id}/{text}")
+    public ResponseEntity<String> askCv(@PathVariable Long id,@PathVariable String text) {
         return ResponseEntity.ok(askCvService.askCv(id, text));
     }
 }
