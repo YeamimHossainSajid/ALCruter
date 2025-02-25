@@ -8,11 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Service
 public class OpenRouterService {
@@ -36,27 +32,38 @@ public class OpenRouterService {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + openRouterApiKey);
             headers.set("Content-Type", "application/json");
-            headers.set("HTTP-Referer", "<YOUR_SITE_URL>"); // Optional
-            headers.set("X-Title", "<YOUR_SITE_NAME>"); // Optional
+            headers.set("HTTP-Referer", "https://chakrihub-x0bd.onrender.com"); // Optional
+            headers.set("X-Title", "ChakriHub"); // Optional
 
+            // Construct the request body as per the new format
             String requestBody = String.format(
-                    "{\"model\": \"openai/gpt-3.5-turbo-instruct\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]}",
+                    "{\"model\": \"openai/gpt-3.5-turbo-0613\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]}",
                     userMessage
             );
+
             HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
+            // Make the API call
             ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
+            // Log the response status and body
+            System.out.println("Response Status: " + responseEntity.getStatusCode());
+            System.out.println("Response Body: " + responseEntity.getBody());
+
+            // Check if the response body is not null
             if (responseEntity.getBody() != null) {
                 JsonNode responseJson = objectMapper.readTree(responseEntity.getBody());
                 response = responseJson.path("choices").get(0).path("message").path("content").asText("No response from API.");
             } else {
                 response = "No response from API.";
+                System.out.println("Response body was null");
             }
         } catch (Exception e) {
             response = "An error occurred while processing your request: " + e.getMessage();
+            e.printStackTrace(); // Log the stack trace for debugging
         }
 
         return response;
     }
 }
+
