@@ -30,4 +30,11 @@ public class SuggestionController {
         List<MatchedPostResponseDto> suggestions = suggestionService.suggestionToCandidate(candidateId);
         return new ResponseEntity<>(suggestions, HttpStatus.OK);
     }
+
+    @GetMapping("/top-candidates")
+    public List<MatchedCandidateResponseDto> getTopCandidates() {
+        return suggestionService.topCandidates();
+    }
+
+
 }

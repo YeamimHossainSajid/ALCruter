@@ -12,5 +12,5 @@ public interface SuggestionService {
 
     public List<MatchedCandidateResponseDto> suggestionToRecruter(Long id);
     public List<MatchedPostResponseDto> suggestionToCandidate(Long candidateId);
-
+    public List<MatchedCandidateResponseDto> topCandidates();
 }

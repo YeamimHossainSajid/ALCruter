@@ -114,4 +114,38 @@ public class SuggestionServiceImpl implements SuggestionService {
         return matchedPosts;
     }
 
+    @Override
+    public List<MatchedCandidateResponseDto> topCandidates() {
+        List<Candidate> candidates = candidateRepository.findAll();
+        Map<Long, List<String>> candidateSkillsMap = new HashMap<>();
+
+        for (Candidate candidate : candidates) {
+            List<String> extractedSkills = skillMatcherService.extractSkills(candidate.getCvInText());
+            candidateSkillsMap.put(candidate.getId(), extractedSkills);
+        }
+
+        List<Candidate> sortedCandidates = candidates.stream()
+                .sorted((c1, c2) -> Integer.compare(
+                        candidateSkillsMap.get(c2.getId()).size(),
+                        candidateSkillsMap.get(c1.getId()).size()
+                ))
+                .limit(5)
+                .collect(Collectors.toList());
+
+        List<MatchedCandidateResponseDto> candidateResponses = new ArrayList<>();
+        for (Candidate candidate : sortedCandidates) {
+            MatchedCandidateResponseDto responseDto = new MatchedCandidateResponseDto();
+            responseDto.setCandidateId(candidate.getId());
+            responseDto.setCandidateName(candidate.getFullName());
+            responseDto.setMatchedSkills(candidateSkillsMap.get(candidate.getId()));
+            responseDto.setMatchPercentage((double) candidateSkillsMap.get(candidate.getId()).size());
+            responseDto.setUsername(candidate.getUser().getUsername());
+
+            candidateResponses.add(responseDto);
+        }
+
+        return candidateResponses;
+    }
+
+
 }
