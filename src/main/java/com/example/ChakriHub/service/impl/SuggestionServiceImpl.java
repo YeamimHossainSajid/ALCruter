@@ -3,10 +3,8 @@ package com.example.ChakriHub.service.impl;
 import com.example.ChakriHub.config.cvparsing.SkillMatcherService;
 import com.example.ChakriHub.entity.candidate.Candidate;
 import com.example.ChakriHub.entity.post.Post;
-import com.example.ChakriHub.payload.response.CandidateResponseDto;
 import com.example.ChakriHub.payload.response.MatchedCandidateResponseDto;
 import com.example.ChakriHub.payload.response.MatchedPostResponseDto;
-import com.example.ChakriHub.payload.response.PostResponseDto;
 import com.example.ChakriHub.repository.CandidateRepository;
 import com.example.ChakriHub.repository.PostRepository;
 import com.example.ChakriHub.repository.RecruterRepository;
@@ -114,6 +112,8 @@ public class SuggestionServiceImpl implements SuggestionService {
         return matchedPosts;
     }
 
+
+
     @Override
     public List<MatchedCandidateResponseDto> topCandidates() {
         List<Candidate> candidates = candidateRepository.findAll();
@@ -147,5 +147,6 @@ public class SuggestionServiceImpl implements SuggestionService {
         return candidateResponses;
     }
 
+ ArrayList arrayList=new ArrayList();
 
 }

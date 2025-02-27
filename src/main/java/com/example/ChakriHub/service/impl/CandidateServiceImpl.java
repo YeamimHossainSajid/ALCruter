@@ -169,4 +169,6 @@ public class CandidateServiceImpl implements CandidateService {
     public void deleteCandidate(Long id) {
    candidateRepository.deleteById(id);
     }
+
+
 }
