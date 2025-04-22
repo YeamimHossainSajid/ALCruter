@@ -69,14 +69,14 @@ public class UserController {
         return ResponseEntity.ok(userService.searchByUsername(username));
     }
 
-//    @MessageMapping("/user.addUser")
-//    @SendTo("/user/public")
-//    public User addUser(
-//            @Payload User user
-//    ) {
-//        userService.saveActiveUser(user);
-//        return user;
-//    }
+    @MessageMapping("/user.addUser")
+    @SendTo("/user/public")
+    public User addUser(
+            @Payload User user
+    ) {
+        userService.saveActiveUser(user);
+        return user;
+    }
 
     @MessageMapping("/user.disconnectUser")
     @SendTo("/user/public")
