@@ -7,7 +7,6 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class KeepAliveScheduler {
-
     private static final Logger logger = LoggerFactory.getLogger(KeepAliveScheduler.class);
     private static final String HEALTHCHECK_URL = "https://chakrihub-1-cilx.onrender.com/healthcheck";
 
