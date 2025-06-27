@@ -11,7 +11,6 @@ public class KeepAliveScheduler {
     private static final String HEALTHCHECK_URL = "https://chakrihub-1-cilx.onrender.com/healthcheck";
     @Scheduled(fixedRate = 300000) // Every 5 minutes
     public void pingBackend() {
-
         try {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getForObject(HEALTHCHECK_URL, String.class);
