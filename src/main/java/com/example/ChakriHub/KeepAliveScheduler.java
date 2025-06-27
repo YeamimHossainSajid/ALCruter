@@ -13,6 +13,7 @@ public class KeepAliveScheduler {
 
     @Scheduled(fixedRate = 300000) // Every 5 minutes
     public void pingBackend() {
+
         try {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getForObject(HEALTHCHECK_URL, String.class);
