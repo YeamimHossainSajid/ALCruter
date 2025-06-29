@@ -26,9 +26,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws") // this is for raw WebSocket (needed for JavaFX)
+                .setAllowedOriginPatterns("*");
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*") // Allow all origins (use specific domains in production)
-                .withSockJS(); // Fallback for browsers not supporting WebSocket
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
     }
 
     @Override
