@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SkillMatcherService {
@@ -78,21 +79,37 @@ public class SkillMatcherService {
             "Content Writing", "Technical Writing", "Creative Writing", "Event Planning"
     );
 
-
     private final LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
 
     public List<String> extractSkills(String text) {
-        Set<String> foundSkills = new HashSet<>();
+        Set<String> foundSkills = ConcurrentHashMap.newKeySet();
         String[] tokens = text.toLowerCase().split("\\W+");
 
+        List<Thread> threads = new ArrayList<>();
+
         for (String skill : SKILLS) {
-            for (String token : tokens) {
-                if (token != null && skill != null && token.toLowerCase().equals(skill.toLowerCase()))  {
-                    foundSkills.add(skill);
-                    break;
+            Thread thread = new Thread(() -> {
+                for (String token : tokens) {
+                    if (token != null && skill != null && token.equalsIgnoreCase(skill)) {
+                        foundSkills.add(skill);
+                        break;
+                    }
                 }
+            });
+
+            threads.add(thread);
+            thread.start(); // Start each thread
+        }
+
+        // Wait for all threads to finish
+        for (Thread thread : threads) {
+            try {
+                thread.join(); // Main thread waits for others
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+
         return new ArrayList<>(foundSkills);
     }
 
@@ -119,9 +136,10 @@ public class SkillMatcherService {
         if (jobSkills.isEmpty()) {
             return 0.0;
         }
+
         long matchedCount = cvSkills.stream().filter(jobSkills::contains).count();
         return (matchedCount / (double) jobSkills.size()) * 100;
     }
-
 }
+
 
