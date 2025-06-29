@@ -3,6 +3,7 @@ package com.example.ChakriHub.service.impl;
 import com.example.ChakriHub.auth.dto.response.CustomUserResponseDTO;
 import com.example.ChakriHub.auth.model.User;
 import com.example.ChakriHub.auth.repository.UserRepo;
+import com.example.ChakriHub.config.ai.service.AskCvService;
 import com.example.ChakriHub.config.cvparsing.PdfService;
 import com.example.ChakriHub.entity.candidate.Candidate;
 import com.example.ChakriHub.entity.recruter.Recruter;
@@ -25,7 +26,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CandidateServiceImpl implements CandidateService {
-
+    @Autowired
+    AskCvService askCvService;
     CandidateRepository candidateRepository;
     UserRepo userRepo;
     @Autowired
@@ -63,6 +65,7 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setAbout(candidateRequestDto.getAbout());
         candidate.setUser(userRepo.findById(candidateRequestDto.getUserId()).get());
 
+
         try {
             if (!cv.getContentType().equals("application/pdf")) {
                 throw new RuntimeException("Please upload a valid PDF file.");
@@ -71,6 +74,7 @@ public class CandidateServiceImpl implements CandidateService {
             cv.transferTo(tempFile);
             String extractedText = pdfService.extractTextFromPdf(tempFile.getAbsolutePath());
             tempFile.delete();
+            candidate.setCvSummary(askCvService.CvSummery(extractedText));
             candidate.setCvInText(extractedText);
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,6 +84,9 @@ public class CandidateServiceImpl implements CandidateService {
         return candidate;
 
     }
+
+
+
 
     public CandidateResponseDto convertToDto(Candidate candidateRequestDto) {
 

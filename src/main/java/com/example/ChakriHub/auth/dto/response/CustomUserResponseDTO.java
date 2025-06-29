@@ -33,6 +33,7 @@ public interface CustomUserResponseDTO {
         String getEducationalQualifications();
         String getPastExperience();
         String getCv();
+        String getCvSummary();
     }
 
     RecruterInfo getRecruter();

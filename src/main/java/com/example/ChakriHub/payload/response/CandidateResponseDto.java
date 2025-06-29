@@ -41,4 +41,6 @@ public class CandidateResponseDto {
     String bio;
 
     LocalDateTime createdDate;
+
+    String summarizedCV;
 }

@@ -81,6 +81,10 @@ public class Candidate {
     @Column(length = 2000000)
     private String cvInText;
 
+    @Size(max = 20000, message = "CV in text must be up to 2,000,0 characters") // Updated to 2,000,000
+    @Column(length = 20000)
+    private String cvSummary;
+
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;

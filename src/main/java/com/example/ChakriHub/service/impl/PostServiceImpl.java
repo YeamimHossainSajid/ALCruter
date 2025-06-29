@@ -224,6 +224,11 @@ public class PostServiceImpl implements PostService {
                     public String getCv() {
                         return user.getCandidate().getCv();
                     }
+
+                    @Override
+                    public String getCvSummary() {
+                        return "";
+                    }
                 };
             }
 
