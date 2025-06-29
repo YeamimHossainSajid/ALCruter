@@ -11,6 +11,17 @@ public class MatchedCandidateResponseDto {
     private List<String> matchedSkills;
     private double matchPercentage;
     private String username;
+    private String cvSummery;
+
+    public String getCvSummery() {
+        return cvSummery;
+    }
+
+    public void setCvSummery(String cvSummery) {
+        this.cvSummery = cvSummery;
+    }
+
+
 
 
     public Long getCandidateId() {
