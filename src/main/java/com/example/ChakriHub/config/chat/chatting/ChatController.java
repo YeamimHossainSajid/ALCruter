@@ -13,27 +13,27 @@ import java.util.List;
 @Controller
 public class ChatController {
 
-    private  SimpMessagingTemplate messagingTemplate;
+//    private  SimpMessagingTemplate messagingTemplate;
     private  ChatMessageService chatMessageService;
 
-    public ChatController(SimpMessagingTemplate messagingTemplate, ChatMessageService chatMessageService) {
-        this.messagingTemplate = messagingTemplate;
+    public ChatController( ChatMessageService chatMessageService) {
+//        this.messagingTemplate = messagingTemplate;
         this.chatMessageService = chatMessageService;
     }
 
-    @MessageMapping("/chat")
-    public void processMessage(@Payload ChatMessage chatMessage) {
-        ChatMessage savedMsg = chatMessageService.save(chatMessage);
-        messagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(), "/queue/messages",
-                new ChatNotification(
-                        savedMsg.getId(),
-                        savedMsg.getSenderId(),
-                        savedMsg.getRecipientId(),
-                        savedMsg.getContent()
-                )
-        );
-    }
+//    @MessageMapping("/chat")
+//    public void processMessage(@Payload ChatMessage chatMessage) {
+//        ChatMessage savedMsg = chatMessageService.save(chatMessage);
+//        messagingTemplate.convertAndSendToUser(
+//                chatMessage.getRecipientId(), "/queue/messages",
+//                new ChatNotification(
+//                        savedMsg.getId(),
+//                        savedMsg.getSenderId(),
+//                        savedMsg.getRecipientId(),
+//                        savedMsg.getContent()
+//                )
+//        );
+//    }
 
     @GetMapping("/messages/{senderId}/{recipientId}")
     public ResponseEntity<List<ChatMessage>> findChatMessages(@PathVariable String senderId,
