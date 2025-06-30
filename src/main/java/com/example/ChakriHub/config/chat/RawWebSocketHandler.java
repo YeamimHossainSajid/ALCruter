@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class RawWebSocketHandler {
 
-    // Store sessions per user
+
     private static final Map<Integer, Session> userSessions = new ConcurrentHashMap<>();
     private static final Map<Session, Integer> sessionToUser = new ConcurrentHashMap<>();
 
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("🔌 JavaFX client connected: " + session.getId());
+        System.out.println(" JavaFX client connected: " + session.getId());
     }
 
     @OnMessage
@@ -42,13 +42,13 @@ public class RawWebSocketHandler {
                 receiverSession.getBasicRemote().sendText(response.toString());
             }
 
-            // Optionally echo back to sender too
+
             if (session.isOpen()) {
                 session.getBasicRemote().sendText(response.toString());
             }
 
         } catch (Exception e) {
-            System.out.println("❌ Error parsing message: " + e.getMessage());
+            System.out.println(" Error parsing message: " + e.getMessage());
         }
     }
 
@@ -57,13 +57,13 @@ public class RawWebSocketHandler {
         Integer uid = sessionToUser.remove(session);
         if (uid != null) {
             userSessions.remove(uid);
-            System.out.println("🚪 Client disconnected: userId=" + uid);
+            System.out.println(" Client disconnected: userId=" + uid);
         }
     }
 
     @OnError
     public void onError(Session session, Throwable err) {
-        System.out.println("⚠️ WebSocket error: " + err.getMessage());
+        System.out.println("️ WebSocket error: " + err.getMessage());
     }
 }
 

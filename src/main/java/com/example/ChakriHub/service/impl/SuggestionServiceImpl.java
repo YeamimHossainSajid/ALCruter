@@ -1,6 +1,7 @@
 package com.example.ChakriHub.service.impl;
 
 import com.example.ChakriHub.config.cvparsing.SkillMatcherService;
+import com.example.ChakriHub.config.email.EmailService;
 import com.example.ChakriHub.entity.candidate.Candidate;
 import com.example.ChakriHub.entity.post.Post;
 import com.example.ChakriHub.payload.response.MatchedCandidateResponseDto;
@@ -9,6 +10,7 @@ import com.example.ChakriHub.repository.CandidateRepository;
 import com.example.ChakriHub.repository.PostRepository;
 import com.example.ChakriHub.repository.RecruterRepository;
 import com.example.ChakriHub.service.SuggestionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,6 +23,8 @@ public class SuggestionServiceImpl implements SuggestionService {
     PostRepository postRepository;
     RecruterRepository recruterRepository;
     SkillMatcherService skillMatcherService;
+    @Autowired
+    EmailService emailService;
 
     public SuggestionServiceImpl
             (CandidateRepository candidateRepository,
@@ -106,6 +110,9 @@ public class SuggestionServiceImpl implements SuggestionService {
 
 
                 matchedPosts.add(responseDto);
+            }
+            if(matchPercentage==100){
+                emailService.sendMatchingJobNotificationEmail(candidate.getUser().getEmail());
             }
         }
         matchedPosts.sort((p1, p2) -> Double.compare(p2.getMatchPercentage(), p1.getMatchPercentage()));
